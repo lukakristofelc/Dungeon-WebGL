@@ -3,29 +3,25 @@ import { vec3, mat4 } from '../../lib/gl-matrix-module.js';
 import { Utils } from './Utils.js';
 import { Node } from './Node.js';
 
-export class Camera extends Node {
+export class Player extends Node {
 
-    constructor(options) {
+    constructor(mesh, image, options) {
         super(options);
         Utils.init(this, this.constructor.defaults, options);
+        this.mesh = mesh;
+        this.image = image;
 
-        this.projection = mat4.create();
-        this.updateProjection();
-
-        this.mousemoveHandler = this.mousemoveHandler.bind(this);
+        //this.mousemoveHandler = this.mousemoveHandler.bind(this);
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
         this.keys = {};
     }
-
+/*
     updateProjection() {
         mat4.perspective(this.projection, this.fov, this.aspect, this.near, this.far);
     }
-
-    update(player) {
-        const c = this;
-        //c.translation[0] = this.player.translation[0]; TODO ne vem zakaj ne dela
-        /*
+*/
+    update(dt) {
         const c = this;
 
         const forward = vec3.set(vec3.create(),
@@ -39,13 +35,13 @@ export class Camera extends Node {
             vec3.add(acc, acc, forward);
         }
         if (this.keys['KeyS']) {
-            vec3.sub(acc, acc, forward);
+            vec3.add(acc, acc, forward);
         }
         if (this.keys['KeyD']) {
-            vec3.add(acc, acc, right);
+            vec3.add(acc, acc, forward);
         }
         if (this.keys['KeyA']) {
-            vec3.sub(acc, acc, right);
+            vec3.add(acc, acc, forward);
         }
 
         // 2: update velocity
@@ -65,7 +61,28 @@ export class Camera extends Node {
         if (len > c.maxSpeed) {
             vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
         }
-        */
+
+        // 5: rotation
+        // W - 0, A - 1, S - 2, D - 3
+        let angle360 = 2*Math.PI;
+        if (this.keys['KeyD'] && this.keys['KeyW']) {
+            c.rotation[1] = -angle360 / 8;
+        } else if (this.keys['KeyD'] && this.keys['KeyS']) {
+            c.rotation[1] = -angle360 / 4 - angle360 / 8;
+        } else if (this.keys['KeyS'] && this.keys['KeyA']) {
+            c.rotation[1] = angle360 / 4 + angle360 / 8;
+        } else if (this.keys['KeyA'] && this.keys['KeyW']) {
+            c.rotation[1] = angle360 / 8;
+        } else if (this.keys['KeyD']) {
+            c.rotation[1] = -angle360 / 4;
+        } else if (this.keys['KeyS']) {
+            c.rotation[1] = angle360 / 2;
+        } else if (this.keys['KeyA']) {
+            c.rotation[1] = angle360 / 4;
+        } else if (this.keys['KeyW']) {
+            c.rotation[1] = angle360;
+        }
+
     }
 
     enable() {
@@ -83,9 +100,8 @@ export class Camera extends Node {
             this.keys[key] = false;
         }
     }
-
+/*
     mousemoveHandler(e) {
-        /*
         const dx = e.movementX;
         const dy = e.movementY;
         const c = this;
@@ -105,8 +121,8 @@ export class Camera extends Node {
         }
 
         c.rotation[1] = ((c.rotation[1] % twopi) + twopi) % twopi;
-        */
     }
+*/
 
     keydownHandler(e) {
         this.keys[e.code] = true;
@@ -118,7 +134,7 @@ export class Camera extends Node {
 
 }
 
-Camera.defaults = {
+Player.defaults = {
     aspect           : 1,
     fov              : 1.5,
     near             : 0.01,
@@ -126,6 +142,6 @@ Camera.defaults = {
     velocity         : [0, 0, 0],
     mouseSensitivity : 0.002,
     maxSpeed         : 3,
-    friction         : 0.2,
+    friction         : 0.8,
     acceleration     : 20
 };

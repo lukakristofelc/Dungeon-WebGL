@@ -5,6 +5,7 @@ import { Application } from '../../common/engine/Application.js';
 import { Renderer } from './Renderer.js';
 import { Physics } from './Physics.js';
 import { Camera } from './Camera.js';
+import { Player } from './Player.js';
 import { SceneLoader } from './SceneLoader.js';
 import { SceneBuilder } from './SceneBuilder.js';
 
@@ -36,6 +37,9 @@ class App extends Application { // TODO glavna datoteka
             if (node instanceof Camera) {
                 this.camera = node;
             }
+            else if (node instanceof Player) {
+                this.player = node;
+            }
         });
 
         this.camera.aspect = this.aspect;
@@ -54,8 +58,10 @@ class App extends Application { // TODO glavna datoteka
 
         if (document.pointerLockElement === this.canvas) {
             this.camera.enable();
+            this.player.enable();
         } else {
             this.camera.disable();
+            this.player.disable();
         }
     }
 
@@ -65,9 +71,11 @@ class App extends Application { // TODO glavna datoteka
         this.startTime = this.time;
 
         if (this.camera) {
-            this.camera.update(dt);
+            this.camera.update(this.player);
         }
-
+        if (this.player) {
+            this.player.update(dt);
+        }
         if (this.physics) {
             this.physics.update(dt);
         }
