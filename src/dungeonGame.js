@@ -9,12 +9,12 @@ import { Player } from './Player.js';
 import { SceneLoader } from './SceneLoader.js';
 import { SceneBuilder } from './SceneBuilder.js';
 
-class App extends Application { // TODO glavna datoteka
+class App extends Application { // glavna datoteka
 
     start() {
         const gl = this.gl;
 
-        this.renderer = new Renderer(gl); // TODO zgradimo nov Renderer
+        this.renderer = new Renderer(gl); // zgradimo nov Renderer
         this.time = Date.now();
         this.startTime = this.time;
         this.aspect = 1;
@@ -22,23 +22,24 @@ class App extends Application { // TODO glavna datoteka
         this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
-        this.load('scene.json'); // TODO naloadamo sceno
+        this.load('scene.json'); // naloadamo sceno
     }
 
     async load(uri) {
-        const scene = await new SceneLoader().loadScene(uri); // TODO zazenemo scene loader
-        const builder = new SceneBuilder(scene); // TODO zgradi se scena
+        const scene = await new SceneLoader().loadScene(uri); // zazenemo scene loader
+        const builder = new SceneBuilder(scene); // zgradi se scena
         this.scene = builder.build();
-        this.physics = new Physics(this.scene); // TODO naredimo fiziko
+        this.physics = new Physics(this.scene); // naredimo fiziko
 
         // Find first camera.
         this.camera = null;
-        this.scene.traverse(node => { // TODO poiscemo kamero
+        this.scene.traverse(node => { // poiscemo kamero
             if (node instanceof Camera) {
                 this.camera = node;
             }
             else if (node instanceof Player) {
                 this.player = node;
+                this.player.enable();
             }
         });
 
@@ -47,7 +48,7 @@ class App extends Application { // TODO glavna datoteka
         this.renderer.prepare(this.scene);
     }
 
-    enableCamera() {
+    enableCamera() { // TODO delete this pa use te pointerLock... , GUI (ker ne rabis)
         this.canvas.requestPointerLock();
     }
 
@@ -57,10 +58,8 @@ class App extends Application { // TODO glavna datoteka
         }
 
         if (document.pointerLockElement === this.canvas) {
-            this.camera.enable();
             this.player.enable();
         } else {
-            this.camera.disable();
             this.player.disable();
         }
     }
@@ -71,7 +70,7 @@ class App extends Application { // TODO glavna datoteka
         this.startTime = this.time;
 
         if (this.camera) {
-            this.camera.update(this.player);
+            this.camera.update(this.player.translation);
         }
         if (this.player) {
             this.player.update(dt);
@@ -101,7 +100,7 @@ class App extends Application { // TODO glavna datoteka
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas');
-    const app = new App(canvas);
+    const app = new App(canvas); // TODO pobrisi gui ker ga ne rabis
     const gui = new GUI();
     gui.add(app, 'enableCamera');
 });

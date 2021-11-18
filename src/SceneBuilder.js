@@ -7,7 +7,7 @@ import { Player } from './Player.js';
 
 import { Scene } from './Scene.js';
 
-export class SceneBuilder { // TODO iz podatkov iz SceneLoader-ja dejansko zgradi
+export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
 
     constructor(spec) {
         this.spec = spec;

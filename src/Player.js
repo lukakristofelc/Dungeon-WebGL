@@ -11,16 +11,11 @@ export class Player extends Node {
         this.mesh = mesh;
         this.image = image;
 
-        //this.mousemoveHandler = this.mousemoveHandler.bind(this);
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
         this.keys = {};
     }
-/*
-    updateProjection() {
-        mat4.perspective(this.projection, this.fov, this.aspect, this.near, this.far);
-    }
-*/
+
     update(dt) {
         const c = this;
 
@@ -63,36 +58,39 @@ export class Player extends Node {
         }
 
         // 5: rotation
-        // W - 0, A - 1, S - 2, D - 3
         let angle360 = 2*Math.PI;
-        if (this.keys['KeyD'] && this.keys['KeyW']) {
-            c.rotation[1] = -angle360 / 8;
-        } else if (this.keys['KeyD'] && this.keys['KeyS']) {
-            c.rotation[1] = -angle360 / 4 - angle360 / 8;
-        } else if (this.keys['KeyS'] && this.keys['KeyA']) {
-            c.rotation[1] = angle360 / 4 + angle360 / 8;
-        } else if (this.keys['KeyA'] && this.keys['KeyW']) {
+        if (this.keys['KeyW'] && this.keys['KeyA']) {
             c.rotation[1] = angle360 / 8;
-        } else if (this.keys['KeyD']) {
-            c.rotation[1] = -angle360 / 4;
-        } else if (this.keys['KeyS']) {
-            c.rotation[1] = angle360 / 2;
-        } else if (this.keys['KeyA']) {
-            c.rotation[1] = angle360 / 4;
-        } else if (this.keys['KeyW']) {
+        }
+        else if (this.keys['KeyW'] && this.keys['KeyD']) {
+            c.rotation[1] = -angle360 / 8;
+        }
+        else if (this.keys['KeyS'] && this.keys['KeyA']) {
+            c.rotation[1] = angle360 / 4 + angle360 / 8;
+        }
+        else if (this.keys['KeyS'] && this.keys['KeyD']) {
+            c.rotation[1] = -angle360 / 4 - angle360 / 8;
+        }
+        else if (this.keys['KeyW']) {
             c.rotation[1] = angle360;
         }
-
+        else if (this.keys['KeyA']) {
+            c.rotation[1] = angle360 / 4;
+        }
+        else if (this.keys['KeyS']) {
+            c.rotation[1] = angle360 / 2;
+        }
+        else if (this.keys['KeyD']) {
+            c.rotation[1] = -angle360 / 4;
+        }
     }
 
     enable() {
-        document.addEventListener('mousemove', this.mousemoveHandler);
         document.addEventListener('keydown', this.keydownHandler);
         document.addEventListener('keyup', this.keyupHandler);
     }
 
     disable() {
-        document.removeEventListener('mousemove', this.mousemoveHandler);
         document.removeEventListener('keydown', this.keydownHandler);
         document.removeEventListener('keyup', this.keyupHandler);
 
@@ -100,29 +98,6 @@ export class Player extends Node {
             this.keys[key] = false;
         }
     }
-/*
-    mousemoveHandler(e) {
-        const dx = e.movementX;
-        const dy = e.movementY;
-        const c = this;
-
-        c.rotation[0] -= dy * c.mouseSensitivity;
-        c.rotation[1] -= dx * c.mouseSensitivity;
-
-        const pi = Math.PI;
-        const twopi = pi * 2;
-        const halfpi = pi / 2;
-
-        if (c.rotation[0] > halfpi) {
-            c.rotation[0] = halfpi;
-        }
-        if (c.rotation[0] < -halfpi) {
-            c.rotation[0] = -halfpi;
-        }
-
-        c.rotation[1] = ((c.rotation[1] % twopi) + twopi) % twopi;
-    }
-*/
 
     keydownHandler(e) {
         this.keys[e.code] = true;
