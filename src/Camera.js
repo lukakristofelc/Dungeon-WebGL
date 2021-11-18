@@ -20,9 +20,7 @@ export class Camera extends Node {
 
     update(playerTrans) {
         const c = this;
-        c.translation[0] = playerTrans[0] + this.baseCameraTranslation[0];
-        c.translation[1] = playerTrans[1] + this.baseCameraTranslation[1];
-        c.translation[2] = playerTrans[2] + this.baseCameraTranslation[2];
+        vec3.add(c.translation, this.baseCameraTranslation, playerTrans);
     }
 }
 
