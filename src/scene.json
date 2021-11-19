@@ -35,6 +35,39 @@
     },
     {
       "type": "model",
+      "mesh": 2,
+      "texture": 3,
+      "aabb": {
+        "min": [-1, 0, -3],
+        "max": [1, 10, 3]
+      },
+      "translation": [7, 0, 5]
+    },
+    {
+      "type": "model",
+      "mesh": 2,
+      "texture": 3,
+      "aabb": {
+        "min": [-3, 0, -1],
+        "max": [3, 10, 1]
+      },
+      "translation": [15, 0, 9],
+      "rotation": [0,1.57,0]
+
+    },
+    {
+      "type": "model",
+      "mesh": 3,
+      "texture": 4,
+      "aabb": {
+        "min": [0, 0, 0],
+        "max": [0, 0, 0]
+      },
+      "translation": [0, 0, 0],
+      "scale": [4, 0, 4]
+    },
+    {
+      "type": "model",
       "mesh": 0,
       "texture": 1,
       "aabb": {
@@ -69,10 +102,14 @@
   "textures": [
     "../../common/images/crate-diffuse.png",
     "../../common/images/grass.png",
-    "../../common/images/red-arrow.png"
+    "../../common/images/red-arrow.png",
+    "../../common/images/bricklarge.png",
+    "../../common/images/floor.png"
   ],
   "meshes": [
     "../../common/models/cube.json",
-    "../../common/models/pyramid.json"
+    "../../common/models/pyramid.json",
+    "../../common/models/brickwall.json",
+    "../../common/models/floor.json"
   ]
 }
