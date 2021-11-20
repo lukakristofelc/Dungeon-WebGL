@@ -8,6 +8,8 @@ import { Camera } from './Camera.js';
 import { Player } from './Player.js';
 import { SceneLoader } from './SceneLoader.js';
 import { SceneBuilder } from './SceneBuilder.js';
+import { Enemy } from './Enemy.js';
+import { Projectile } from './Projectile.js';
 
 class App extends Application { // glavna datoteka
 
@@ -18,7 +20,8 @@ class App extends Application { // glavna datoteka
         this.time = Date.now();
         this.startTime = this.time;
         this.aspect = 1;
-
+        this.enemies = [];
+        this.projectiles = [];
         this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
@@ -26,9 +29,9 @@ class App extends Application { // glavna datoteka
     }
 
     async load(uri) {
-        const scene = await new SceneLoader().loadScene(uri); // zazenemo scene loader
-        const builder = new SceneBuilder(scene); // zgradi se scena
-        this.scene = builder.build();
+        this.sceneBlueprint = await new SceneLoader().loadScene(uri); // zazenemo scene loader
+        this.builder = new SceneBuilder(this.sceneBlueprint); // zgradi se scena
+        this.scene = this.builder.build();
         this.physics = new Physics(this.scene); // naredimo fiziko
 
         // Find first camera.
@@ -40,6 +43,9 @@ class App extends Application { // glavna datoteka
             else if (node instanceof Player) {
                 this.player = node;
                 this.player.enable();
+            }
+            else if(node instanceof Enemy) {
+                this.enemies.push(node);
             }
         });
 
@@ -73,11 +79,63 @@ class App extends Application { // glavna datoteka
             this.camera.update(this.player.translation);
         }
         if (this.player) {
-            this.player.update(dt);
+            if(this.player.lifePoints === 0)
+            {
+                this.gameOver();
+            }
+            else
+            {
+                this.player.update(dt, this);
+            }
         }
+
         if (this.physics) {
             this.physics.update(dt);
         }
+
+        if (this.enemies) {
+            this.enemies.forEach(enemy => {
+                if (enemy.lifePoints > 0)
+                {
+                    enemy.update(dt, this.player);
+                }
+                else
+                {
+                    this.enemies.splice(this.enemies.indexOf(enemy), 1);
+                    this.scene.nodes.forEach(node => {
+                        if (node instanceof Enemy &&
+                            node.translation === enemy.translation)
+                        {
+                            this.scene.nodes.splice(this.scene.nodes.indexOf(node), 1);
+                        }
+                    });
+                }
+            });
+        }
+
+        if (this.projectiles)
+        {
+            this.projectiles.forEach(projectile => {
+                if (!projectile.enabled)
+                {
+                    this.projectiles.splice(this.projectiles.indexOf(projectile), 1)
+                    this.scene.nodes.forEach(node => {
+                        if (node instanceof Projectile &&
+                            node.translation === projectile.translation)
+                        {
+                            this.scene.nodes.splice(this.scene.nodes.indexOf(node), 1);
+                        }
+                    });
+                }
+                projectile.update(dt, this);
+            });
+        }
+    }
+
+    gameOver()
+    {
+        // TODO
+        alert("GAME OVER");
     }
 
     render() {
