@@ -2,6 +2,8 @@ import { vec3, mat4 } from '../../lib/gl-matrix-module.js';
 
 import { Utils } from './Utils.js';
 import { Node } from './Node.js';
+import { Mesh } from './Mesh.js';
+import { Projectile } from './Projectile.js';
 
 export class Player extends Node {
 
@@ -10,33 +12,44 @@ export class Player extends Node {
         Utils.init(this, this.constructor.defaults, options);
         this.mesh = mesh;
         this.image = image;
+        this.lifePoints = 100;
 
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
+        this.keyPressHandler = this.keyPressHandler.bind(this);
         this.keys = {};
+        this.projectile = 
+        {
+            "type": "projectile",
+            "mesh": 4,
+            "texture": 5,
+            "aabb": {
+              "min": [-2, -2, -2],
+              "max": [-2, -2, -2]
+            },
+            "translation": [0, 0, 0],
+            "scale": [1, 1, 1]
+        };
     }
 
-    update(dt) {
+    update(dt, scene) {
         const c = this;
-
-        const forward = vec3.set(vec3.create(),
-            -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
-        const right = vec3.set(vec3.create(),
-            Math.cos(c.rotation[1]), 0, -Math.sin(c.rotation[1]));
+        this.scene = scene;
+        this.forward = vec3.set(vec3.create(), -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
 
         // 1: add movement acceleration
         let acc = vec3.create();
         if (this.keys['KeyW']) {
-            vec3.add(acc, acc, forward);
+            vec3.add(acc, acc, this.forward);
         }
         if (this.keys['KeyS']) {
-            vec3.add(acc, acc, forward);
+            vec3.add(acc, acc, this.forward);
         }
         if (this.keys['KeyD']) {
-            vec3.add(acc, acc, forward);
+            vec3.add(acc, acc, this.forward);
         }
         if (this.keys['KeyA']) {
-            vec3.add(acc, acc, forward);
+            vec3.add(acc, acc, this.forward);
         }
 
         // 2: update velocity
@@ -88,6 +101,7 @@ export class Player extends Node {
     enable() {
         document.addEventListener('keydown', this.keydownHandler);
         document.addEventListener('keyup', this.keyupHandler);
+        document.addEventListener('keypress', this.keyPressHandler);
     }
 
     disable() {
@@ -107,6 +121,36 @@ export class Player extends Node {
         this.keys[e.code] = false;
     }
 
+    keyPressHandler(e)
+    {
+        if (e.code === 'Space')
+        {
+            this.shootProjectile()
+        }
+    }
+
+    shootProjectile()
+    {
+        let movementVector = vec3.create();
+        vec3.copy(movementVector, this.forward);
+        const mesh = new Mesh(this.mesh);
+        const texture = this.image;
+
+        let projectileTranslation = vec3.create();
+        vec3.copy(projectileTranslation, this.translation);
+
+        movementVector[0] *= 1.5;
+        movementVector[1] *= 1.5;
+        movementVector[2] *= 1.5;
+
+        vec3.add(projectileTranslation, projectileTranslation, movementVector);
+        this.projectile["translation"] = projectileTranslation;
+
+        let projectile = this.scene.builder.createProjectile(this.projectile, movementVector);//new Projectile(mesh, texture, this.projectile, movementVector);
+        this.scene.projectiles.push(projectile);
+        this.scene.scene.addNode(projectile);
+        this.scene.renderer.prepare(this.scene.scene);
+    }
 }
 
 Player.defaults = {

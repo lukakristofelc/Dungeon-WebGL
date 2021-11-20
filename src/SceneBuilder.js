@@ -6,6 +6,8 @@ import { Camera } from './Camera.js';
 import { Player } from './Player.js';
 
 import { Scene } from './Scene.js';
+import { Enemy } from './Enemy.js';
+import { Projectile } from './Projectile.js';
 
 export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
 
@@ -27,9 +29,23 @@ export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
                 const texture = this.spec.textures[spec.texture];
                 return new Player(mesh, texture, spec);
             }
+            case 'enemy': {
+                const mesh = new Mesh(this.spec.meshes[spec.mesh]);
+                const texture = this.spec.textures[spec.texture];
+
+                return new Enemy(mesh, texture, spec);
+            }
             default: return new Node(spec);
         }
     }
+    
+    createProjectile(spec, movementVector)
+    {
+        const mesh = new Mesh(this.spec.meshes[spec.mesh]);
+        const texture = this.spec.textures[spec.texture];
+        return new Projectile(mesh, texture, spec, movementVector);;
+    }
+    
 
     build() {
         let scene = new Scene();
