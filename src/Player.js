@@ -14,6 +14,8 @@ export class Player extends Node {
         this.image = image;
         this.lifePoints = 100;
 
+        this.previousProjectileTime = Date.now();
+
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
         this.keyPressHandler = this.keyPressHandler.bind(this);
@@ -125,7 +127,12 @@ export class Player extends Node {
     {
         if (e.code === 'Space')
         {
-            this.shootProjectile()
+            const curTime = Date.now();
+            if (curTime - this.previousProjectileTime >= 1000) { // Dodan cooldown 1 sekunda
+                // console.log(curTime - this.previousProjectileTime);
+                this.previousProjectileTime = curTime;
+                this.shootProjectile();
+            }
         }
     }
 
