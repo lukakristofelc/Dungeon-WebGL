@@ -77,6 +77,7 @@ export class Enemy extends Node {
         if (player.lifePoints > 0)
         {
             player.lifePoints -= 0.5;
+            document.getElementById("punch").play();
         }
     }
 }

@@ -41,7 +41,7 @@ export class Player extends Node {
 
         // health hud
         let hpHUD = document.getElementById("hpHUD");
-        hpHUD.innerText = "HP: " + c.lifePoints;
+        hpHUD.innerText = "HP: " + Math.floor(c.lifePoints);
         // health hud end
 
         // mana hud
