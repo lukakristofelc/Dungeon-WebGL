@@ -135,7 +135,9 @@ class App extends Application { // glavna datoteka
     gameOver()
     {
         // TODO
-        alert("GAME OVER");
+        //alert("GAME OVER");
+        window.location.href = "deathScreen.html";
+
     }
 
     render() {
