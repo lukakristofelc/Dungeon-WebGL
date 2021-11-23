@@ -36,6 +36,21 @@ export class Player extends Node {
 
     update(dt, scene) {
         const c = this;
+
+        // health hud
+        let hpHUD = document.getElementById("hpHUD");
+        hpHUD.innerText = "HP: " + c.lifePoints;
+        // health hud end
+
+        // mana hud
+        let manaHUD = document.getElementById("manaHUD");
+        let manaFullness = (Date.now() - c.previousProjectileTime) * 0.1;
+        if (manaFullness > 100) {
+            manaFullness = 100;
+        }
+        manaHUD.innerText = "MP: " + Math.round(manaFullness);
+        // mana hud end
+
         this.scene = scene;
         this.forward = vec3.set(vec3.create(), -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
 

@@ -37,3 +37,20 @@ a.back {
 a.back:hover {
     background: #ddd;
 }
+
+.textHUD {
+    position: absolute;
+    margin-left: 100px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#hpHUD {
+    margin-top: 50px;
+    color: red;
+}
+
+#manaHUD {
+    margin-top: 80px;
+    color: blue;
+}
