@@ -10,6 +10,7 @@ import { SceneLoader } from './SceneLoader.js';
 import { SceneBuilder } from './SceneBuilder.js';
 import { Enemy } from './Enemy.js';
 import { Projectile } from './Projectile.js';
+import { Light } from './Light.js';
 
 class App extends Application { // glavna datoteka
 
@@ -26,6 +27,8 @@ class App extends Application { // glavna datoteka
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
         this.load('scene.json'); // naloadamo sceno
+
+        this.light = new Light();
     }
 
     async load(uri) {
@@ -77,6 +80,9 @@ class App extends Application { // glavna datoteka
 
         if (this.camera) {
             this.camera.update(this.player.translation);
+        }
+        if (this.light && this.player) {
+            this.light.update(this.player.translation);
         }
         if (this.player) {
             if(this.player.lifePoints === 0)
@@ -140,7 +146,7 @@ class App extends Application { // glavna datoteka
 
     render() {
         if (this.scene) {
-            this.renderer.render(this.scene, this.camera);
+            this.renderer.render(this.scene, this.camera, this.light);
         }
     }
 
@@ -160,5 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas');
     const app = new App(canvas); // TODO pobrisi gui ker ga ne rabis
     const gui = new GUI();
-    gui.add(app, 'enableCamera');
+    gui.add(app.light, 'ambient', 0.0, 1.0);
+    gui.add(app.light, 'diffuse', 0.0, 1.0);
+    gui.add(app.light, 'specular', 0.0, 1.0);
+    gui.add(app.light, 'shininess', 0.0, 1000.0);
+    gui.addColor(app.light, 'color');
+    for (let i = 0; i < 3; i++) {
+        gui.add(app.light.position, i, -10.0, 10.0).name('position.' + String.fromCharCode('x'.charCodeAt(0) + i));
+    }
 });
