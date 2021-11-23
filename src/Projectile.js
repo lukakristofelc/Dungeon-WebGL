@@ -23,8 +23,9 @@ export class Projectile extends Node {
             if(vec3.dist(this.translation, enemy.translation) < 1 && this.enabled)
             {
                 enemy.lifePoints -= 50;
-                console.log(enemy.lifePoints);
+                // console.log(enemy.lifePoints);
                 this.enabled = false;
+                document.getElementById("fireballHit").play();
             }
         })
 

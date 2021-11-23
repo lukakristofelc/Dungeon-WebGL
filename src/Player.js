@@ -16,6 +16,8 @@ export class Player extends Node {
 
         this.previousProjectileTime = Date.now();
 
+        this.footstepAudioActive = false;
+
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
         this.keyPressHandler = this.keyPressHandler.bind(this);
@@ -55,18 +57,28 @@ export class Player extends Node {
         this.forward = vec3.set(vec3.create(), -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
 
         // 1: add movement acceleration
+        let movement = false;
         let acc = vec3.create();
         if (this.keys['KeyW']) {
             vec3.add(acc, acc, this.forward);
+            movement = true;
         }
         if (this.keys['KeyS']) {
             vec3.add(acc, acc, this.forward);
+            movement = true;
         }
         if (this.keys['KeyD']) {
             vec3.add(acc, acc, this.forward);
+            movement = true;
         }
         if (this.keys['KeyA']) {
             vec3.add(acc, acc, this.forward);
+            movement = true;
+        }
+
+        if (movement && !this.footstepAudioActive) {
+            document.getElementById("footstep").play();
+            this.footstepAudioActive = true;
         }
 
         // 2: update velocity
@@ -79,6 +91,10 @@ export class Player extends Node {
             !this.keys['KeyA'])
         {
             vec3.scale(c.velocity, c.velocity, 1 - c.friction);
+            this.footstepAudioActive = false;
+            document.getElementById("footstep").pause();
+            document.getElementById("footstep").currentTime = 0;
+
         }
 
         // 4: limit speed
@@ -147,6 +163,7 @@ export class Player extends Node {
                 // console.log(curTime - this.previousProjectileTime);
                 this.previousProjectileTime = curTime;
                 this.shootProjectile();
+                document.getElementById("fireballCast").play();
             }
         }
     }

@@ -26,6 +26,8 @@ class App extends Application { // glavna datoteka
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
         this.load('scene.json'); // naloadamo sceno
+
+        document.getElementById("dungeonAmbience").play();
     }
 
     async load(uri) {
@@ -109,6 +111,7 @@ class App extends Application { // glavna datoteka
                             this.scene.nodes.splice(this.scene.nodes.indexOf(node), 1);
                         }
                     });
+                    document.getElementById("ceedayScream").play();
                 }
             });
         }
@@ -136,6 +139,8 @@ class App extends Application { // glavna datoteka
     {
         // TODO
         //alert("GAME OVER");
+        document.getElementById("dungeonAmbience").pause();
+        //document.getElementById("death").play();
         window.location.href = "deathScreen.html";
 
     }
