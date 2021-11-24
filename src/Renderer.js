@@ -9,7 +9,7 @@ export class Renderer {
     constructor(gl) {
         this.gl = gl;
 
-        gl.clearColor(1, 1, 1, 1); // TODO tukaj spreminjamo barvo ozdaja
+        gl.clearColor(0, 0, 0, 1); // TODO tukaj spreminjamo barvo ozdaja
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
 
