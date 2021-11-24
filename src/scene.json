@@ -159,6 +159,17 @@
     },
     {
       "type": "model",
+      "mesh": 8,
+      "texture": 10,
+      "aabb": {
+        "min": [-1, 0, -3],
+        "max": [1, 10, 3]
+      },
+      "translation": [40, 0, 17],
+      "scale":[1,2,1]
+    },
+    {
+      "type": "model",
       "mesh": 2,
       "texture": 3,
       "aabb": {
@@ -1456,7 +1467,8 @@
     "../../common/images/exitGate.png",
     "../../common/images/darkskull.png",
     "../../common/images/void.png",
-    "../../common/images/player.png"
+    "../../common/images/player.png",
+    "../../common/images/chest.png"
   ],
   "meshes": [
     "../../common/models/cube.json",
@@ -1466,6 +1478,7 @@
     "../../common/models/fireball.json",
     "../../common/models/skull.json",
     "../../common/models/portal.json",
-    "../../common/models/player.json"
+    "../../common/models/player.json",
+    "../../common/models/chest.json"
   ]
 }
