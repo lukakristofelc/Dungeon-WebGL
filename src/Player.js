@@ -41,7 +41,7 @@ export class Player extends Node {
 
         // health hud
         let hpHUD = document.getElementById("hpHUD");
-        hpHUD.innerText = "HP: " + Math.floor(c.lifePoints);
+        hpHUD.innerText = "HP: " + Math.ceil(c.lifePoints);
         // health hud end
 
         // mana hud
@@ -167,6 +167,16 @@ export class Player extends Node {
             }
         }
     }
+
+    winGame() {
+        if (this.keys['KeyE']) {
+            document.getElementById("dungeonAmbience").pause();
+            window.location.href = "victoryScreen.html";
+        }
+    }
+
+
+
 
     shootProjectile()
     {

@@ -10,6 +10,7 @@ import { SceneLoader } from './SceneLoader.js';
 import { SceneBuilder } from './SceneBuilder.js';
 import { Enemy } from './Enemy.js';
 import { Projectile } from './Projectile.js';
+import { ExitGate } from './ExitGate.js';
 
 class App extends Application { // glavna datoteka
 
@@ -48,6 +49,9 @@ class App extends Application { // glavna datoteka
             }
             else if(node instanceof Enemy) {
                 this.enemies.push(node);
+            }
+            else if (node instanceof ExitGate) {
+                this.exitGate = node;
             }
         });
 
@@ -90,7 +94,9 @@ class App extends Application { // glavna datoteka
                 this.player.update(dt, this);
             }
         }
-
+        if (this.exitGate) {
+            this.exitGate.update(this.player);
+        }
         if (this.physics) {
             this.physics.update(dt);
         }

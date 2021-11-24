@@ -8,6 +8,7 @@ import { Player } from './Player.js';
 import { Scene } from './Scene.js';
 import { Enemy } from './Enemy.js';
 import { Projectile } from './Projectile.js';
+import { ExitGate } from './ExitGate.js';
 
 export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
 
@@ -34,6 +35,12 @@ export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
                 const texture = this.spec.textures[spec.texture];
 
                 return new Enemy(mesh, texture, spec);
+            }
+            case 'exitGate': {
+                const mesh = new Mesh(this.spec.meshes[spec.mesh]);
+                const texture = this.spec.textures[spec.texture];
+
+                return new ExitGate(mesh, texture, spec);
             }
             default: return new Node(spec);
         }
