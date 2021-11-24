@@ -19,6 +19,7 @@ export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
     createNode(spec) {
         switch (spec.type) {
             case 'camera': return new Camera(spec);
+            case 'floor':
             case 'model': {
                 const mesh = new Mesh(this.spec.meshes[spec.mesh]);
                 const texture = this.spec.textures[spec.texture];
@@ -50,7 +51,7 @@ export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
     {
         const mesh = new Mesh(this.spec.meshes[spec.mesh]);
         const texture = this.spec.textures[spec.texture];
-        return new Projectile(mesh, texture, spec, movementVector);;
+        return new Projectile(mesh, texture, spec, movementVector);
     }
     
 

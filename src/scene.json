@@ -26,13 +26,14 @@
     },
     {
       "type": "enemy",
-      "mesh": 0,
-      "texture": 0,
+      "mesh": 5,
+      "texture": 7,
       "aabb": {
         "min": [-1, -1, -1],
         "max": [1, 1, 1]
       },
-      "translation": [3, 1, -5]
+      "translation": [3, 1, -5],
+      "scale": [3, 3, 3]
     },
     {
       "type": "model",
@@ -69,13 +70,14 @@
     },
     {
       "type": "enemy",
-      "mesh": 0,
-      "texture": 1,
+      "mesh": 5,
+      "texture": 7,
       "aabb": {
         "min": [-1, -1, -1],
         "max": [1, 1, 1]
       },
-      "translation": [0, 1, 5]
+      "translation": [0, 1, 5],
+      "scale": [3,3,3]
     },
     {
       "type": "model",
@@ -101,8 +103,8 @@
     },
     {
       "type": "exitGate",
-      "mesh": 0,
-      "texture": 6,
+      "mesh": 6,
+      "texture": 8,
       "aabb": {
         "min": [-1, -0.1, -1],
         "max": [1, 0.1, 1]
@@ -119,13 +121,17 @@
     "../../common/images/bricklarge.png",
     "../../common/images/floor.png",
     "../../common/images/fire.png",
-    "../../common/images/exitGate.png"
+    "../../common/images/exitGate.png",
+    "../../common/images/darkskull.png",
+    "../../common/images/void.png"
   ],
   "meshes": [
     "../../common/models/cube.json",
     "../../common/models/pyramid.json",
     "../../common/models/brickwall.json",
     "../../common/models/floor.json",
-    "../../common/models/fireball.json"
+    "../../common/models/fireball.json",
+    "../../common/models/skull.json",
+    "../../common/models/portal.json"
   ]
 }
