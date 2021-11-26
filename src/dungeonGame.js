@@ -22,7 +22,6 @@ class App extends Application { // glavna datoteka
         this.startTime = this.time;
         this.aspect = 1;
         this.enemies = [];
-        this.projectiles = [];
         this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
@@ -52,6 +51,9 @@ class App extends Application { // glavna datoteka
             }
             else if (node instanceof ExitGate) {
                 this.exitGate = node;
+            }
+            else if (node instanceof Projectile) {
+                this.projectile = node;
             }
         });
 
@@ -122,22 +124,9 @@ class App extends Application { // glavna datoteka
             });
         }
 
-        if (this.projectiles)
+        if (this.projectile)
         {
-            this.projectiles.forEach(projectile => {
-                if (!projectile.enabled)
-                {
-                    this.projectiles.splice(this.projectiles.indexOf(projectile), 1)
-                    this.scene.nodes.forEach(node => {
-                        if (node instanceof Projectile &&
-                            node.translation === projectile.translation)
-                        {
-                            this.scene.nodes.splice(this.scene.nodes.indexOf(node), 1);
-                        }
-                    });
-                }
-                projectile.update(dt, this);
-            });
+           this.projectile.update(dt, this);
         }
     }
 

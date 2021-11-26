@@ -22,18 +22,6 @@ export class Player extends Node {
         this.keyupHandler = this.keyupHandler.bind(this);
         this.keyPressHandler = this.keyPressHandler.bind(this);
         this.keys = {};
-        this.projectile = 
-        {
-            "type": "projectile",
-            "mesh": 4,
-            "texture": 5,
-            "aabb": {
-              "min": [-2, -2, -2],
-              "max": [-2, -2, -2]
-            },
-            "translation": [0, 0, 0],
-            "scale": [1, 1, 1]
-        };
     }
 
     update(dt, scene) {
@@ -178,27 +166,23 @@ export class Player extends Node {
 
 
 
-    shootProjectile()
+    shootProjectile(scene)
     {
-        let movementVector = vec3.create();
-        vec3.copy(movementVector, this.forward);
-        const mesh = new Mesh(this.mesh);
-        const texture = this.image;
+        let direction = vec3.create();
+        vec3.copy(direction, this.forward);
 
         let projectileTranslation = vec3.create();
         vec3.copy(projectileTranslation, this.translation);
 
-        movementVector[0] *= 1.5;
-        movementVector[1] *= 1.5;
-        movementVector[2] *= 1.5;
+        direction[0] *= 1.5;
+        direction[1] *= 1.5;
+        direction[2] *= 1.5;
 
-        vec3.add(projectileTranslation, projectileTranslation, movementVector);
-        this.projectile["translation"] = projectileTranslation;
-
-        let projectile = this.scene.builder.createProjectile(this.projectile, movementVector);//new Projectile(mesh, texture, this.projectile, movementVector);
-        this.scene.projectiles.push(projectile);
-        this.scene.scene.addNode(projectile);
-        this.scene.renderer.prepare(this.scene.scene);
+        vec3.add(projectileTranslation, projectileTranslation, direction);
+        this.scene.projectile.translation = projectileTranslation;
+        this.scene.projectile.direction = direction;
+        this.scene.projectile.movingBack = false;
+        this.scene.projectile.enabled = true;
     }
 }
 

@@ -6,55 +6,74 @@ import { Player } from './Player.js';
 
 export class Projectile extends Node {
 
-    constructor(mesh, image, options, direction) {
+    constructor(mesh, image, options) {
         super(options);
         Utils.init(this, this.constructor.defaults, options);
         this.mesh = mesh;
         this.image = image;
-        this.directon = direction;
-        this.enabled = true;
-        this.destroyAfter(2000);
+        this.direction = vec3.create();
+        this.enabled = false;
+        this.movingBack = false;
     }
 
     update(dt, scene) {
-        const c = this;
-
-        scene.enemies.forEach(enemy => {
-            if(vec3.dist(this.translation, enemy.translation) < 1 && this.enabled)
-            {
-                enemy.lifePoints -= 50;
-                // console.log(enemy.lifePoints);
-                this.enabled = false;
-                document.getElementById("fireballHit").play();
-            }
-        })
-
-        scene.scene.nodes.forEach(node => {
-            if(vec3.dist(this.translation, node.translation) < 1 && this.enabled &&
-                !node instanceof Player)
-            {
-                this.enabled = false;
-            }
-        });
-
-        // 1: add movement acceleration
-        let acc = vec3.create();
-        vec3.add(acc, acc, this.directon);
-    
-        // 2: update velocity
-        vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
-
-        const len = vec3.len(c.velocity);
-        if (len > c.maxSpeed) 
+        
+        if (this.enabled)
         {
-           vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
+            if (!this.movingBack)
+            {
+                this.moveBackAfter(1000);
+                this.movingBack = true;
+            }
+            const c = this;
+
+            scene.enemies.forEach(enemy => {
+                if(vec3.dist(this.translation, enemy.translation) < 2.5)
+                {
+                    enemy.lifePoints -= 50;
+                    this.translation = [0,0,-100]
+                    this.velocity = [0,0,0];
+                    this.enabled = false;
+                    document.getElementById("fireballHit").play();
+                }
+            })
+
+            scene.scene.nodes.forEach(node => {
+                if(vec3.dist(this.translation, node.translation) < 1 && this.enabled &&
+                    !node instanceof Player)
+                {
+                    this.translation = [0,0,-100]
+                    this.velocity = [0,0,0];
+                    this.enabled = false;
+                }
+            });
+
+            // 1: add movement acceleration
+            let acc = vec3.create();
+            let dir = vec3.copy(vec3.create(), this.direction)
+            vec3.add(acc, acc, dir);
+        
+            // 2: update velocity
+            vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
+
+            const len = vec3.len(c.velocity);
+            if (len > c.maxSpeed) 
+            {
+                vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
+            }
         }
     }
 
-    async destroyAfter(seconds)
+    async moveBackAfter(seconds)
     {
         await this.sleep(seconds);
-        this.enabled = false;
+
+        if (this.enabled)
+        {
+            this.enabled = false;
+            this.translation = [0,0,-100]
+            this.velocity = [0,0,0];
+        }
     }
 
     sleep(ms) {
@@ -71,7 +90,7 @@ Projectile.defaults = {
     far              : 100,
     velocity         : [0, 0, 0],
     mouseSensitivity : 0.002,
-    maxSpeed         : 10,
+    maxSpeed         : 30,
     friction         : 0.8,
     acceleration     : 20
 };

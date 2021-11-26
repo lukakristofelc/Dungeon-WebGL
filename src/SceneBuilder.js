@@ -43,6 +43,12 @@ export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
 
                 return new ExitGate(mesh, texture, spec);
             }
+            case 'projectile': {
+                const mesh = new Mesh(this.spec.meshes[spec.mesh]);
+                const texture = this.spec.textures[spec.texture];
+
+                return new Projectile(mesh, texture, spec);
+            }
             default: return new Node(spec);
         }
     }
