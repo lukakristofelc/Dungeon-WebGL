@@ -11,6 +11,7 @@ import { SceneBuilder } from './SceneBuilder.js';
 import { Enemy } from './Enemy.js';
 import { Projectile } from './Projectile.js';
 import { ExitGate } from './ExitGate.js';
+import { Light } from './Light.js';
 
 class App extends Application { // glavna datoteka
 
@@ -22,6 +23,7 @@ class App extends Application { // glavna datoteka
         this.startTime = this.time;
         this.aspect = 1;
         this.enemies = [];
+        this.light = new Light();
         this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
@@ -142,7 +144,7 @@ class App extends Application { // glavna datoteka
 
     render() {
         if (this.scene) {
-            this.renderer.render(this.scene, this.camera);
+            this.renderer.render(this.scene, this.camera, this.light);
         }
     }
 
@@ -162,5 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas');
     const app = new App(canvas); // TODO pobrisi gui ker ga ne rabis
     const gui = new GUI();
+    gui.addColor(app.light, 'ambientColor');
+    gui.addColor(app.light, 'diffuseColor');
+    gui.addColor(app.light, 'specularColor');
+    gui.add(app.light, 'shininess', 0.0, 20.0);
+    for (let i = 0; i < 3; i++) {
+        gui.add(app.light.position, i, -10.0, 10.0).name('position.' + String.fromCharCode('x'.charCodeAt(0) + i));
+    }
+    for (let i = 0; i < 3; i++) {
+        gui.add(app.light.attenuatuion, i, 0.0, 1.0).name('attenuation.' + String.fromCharCode('x'.charCodeAt(0) + i));
+    }
     gui.add(app, 'enableCamera');
 });
