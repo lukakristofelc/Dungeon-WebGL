@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>You Died</title>
+    <title>You Died!</title>
 
-    <link rel="stylesheet" type="text/css" href="../common/style.css">
-
-    <link rel="stylesheet" type="text/css" href="../index.css">
+    <link rel="stylesheet" type="text/css" href="common/style.css">
+    <link rel="stylesheet" type="text/css" href="./victoryScreen.css">
 </head>
 <body>
-    <h1>You Died</h1>
-    <a href="../index.html">
-        Back to main menu
-    </a>
-    <audio id="deathScreen" autoplay>
-        <source src="../common/audio/dark_souls_you_died.wav" type="audio/wav">
-    </audio>
+  <audio id="deathScreen" autoplay>
+    <source src="../common/audio/dark_souls_you_died.wav" type="audio/wav">
+  </audio>
+    <div class="container">
+        <main>
+            <div class="boxmenu-options">
+                <div class="box-title">
+                    <h1>
+                        YOU DIED!
+                    </h1>
+                </div>
+                <div class="box-options">
+                    <a href="../index.html">
+                      MAIN MENU
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

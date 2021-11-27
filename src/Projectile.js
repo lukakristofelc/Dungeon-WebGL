@@ -38,16 +38,6 @@ export class Projectile extends Node {
                 }
             })
 
-            scene.scene.nodes.forEach(node => {
-                if(vec3.dist(this.translation, node.translation) < 1 && this.enabled &&
-                    !node instanceof Player)
-                {
-                    this.translation = [0,0,-100]
-                    this.velocity = [0,0,0];
-                    this.enabled = false;
-                }
-            });
-
             // 1: add movement acceleration
             let acc = vec3.create();
             let dir = vec3.copy(vec3.create(), this.direction)

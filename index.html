@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WebGL Game</title>
+    <title>Main Menu</title>
 
     <link rel="stylesheet" type="text/css" href="common/style.css">
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-    <h1>WebGL Game</h1>
-            <a href="src/dungeonGame.html">
-                Play game
-            </a>
+    <div class="container">
+        <main>
+            <div class="boxmenu-options">
+                <div class="box-title">
+                    <h1>
+                        DUNGEON OF SHATTERED PAST
+                    </h1>
+                </div>
+                <div class="box-options">
+                    <a href="src/dungeonGame.html">
+                        NEW GAME
+                    </a>
+                </div>
+                <div class="box-options">
+                    <a href=./instructions.html>
+                        INSTRUCTIONS
+                    </a>
+                </div>
+                <div class="box-options">
+                    <a onclick="javascript:window.close()">
+                        QUIT GAME
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
