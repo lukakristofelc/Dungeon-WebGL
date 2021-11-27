@@ -167,9 +167,11 @@ class App extends Application { // glavna datoteka
 
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas');
     const app = new App(canvas); // TODO pobrisi gui ker ga ne rabis
+    /*
     const gui = new GUI();
     gui.addColor(app.light, 'ambientColor');
     gui.addColor(app.light, 'diffuseColor');
@@ -182,4 +184,5 @@ document.addEventListener('DOMContentLoaded', () => {
         gui.add(app.light.attenuatuion, i, 0.0, 1.0).name('attenuation.' + String.fromCharCode('x'.charCodeAt(0) + i));
     }
     gui.add(app, 'enableCamera');
+    */
 });
