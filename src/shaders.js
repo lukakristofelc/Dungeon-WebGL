@@ -1,4 +1,4 @@
-/*const vertex = `#version 300 es
+/*const vertex = `#version 300 es TODO DELETE COMMENT
 layout (location = 0) in vec4 aPosition;
 layout (location = 1) in vec2 aTexCoord;
 
@@ -44,7 +44,7 @@ void main() {
 }
 `;
 /*
-const fragment = `#version 300 es
+const fragment = `#version 300 es TODO DELETE COMMENT
 precision mediump float;
 
 uniform mediump sampler2D uTexture;
