@@ -56,7 +56,7 @@ a.back:hover {
     color: blue;
 }
 
-#exitDungeon {
+.eHUD {
     position: absolute;
     top: 40%;
     left: 50%;

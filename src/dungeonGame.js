@@ -11,6 +11,7 @@ import { SceneBuilder } from './SceneBuilder.js';
 import { Enemy } from './Enemy.js';
 import { Projectile } from './Projectile.js';
 import { ExitGate } from './ExitGate.js';
+import { Chest } from './Chest.js';
 import { Light } from './Light.js';
 
 class App extends Application { // glavna datoteka
@@ -53,6 +54,9 @@ class App extends Application { // glavna datoteka
             }
             else if (node instanceof ExitGate) {
                 this.exitGate = node;
+            }
+            else if (node instanceof Chest) {
+                this.chest = node;
             }
             else if (node instanceof Projectile) {
                 this.projectile = node;
@@ -100,6 +104,9 @@ class App extends Application { // glavna datoteka
         }
         if (this.exitGate) {
             this.exitGate.update(this.player);
+        }
+        if (this.chest) {
+            this.chest.update(this.player);
         }
         if (this.physics) {
             this.physics.update(dt);

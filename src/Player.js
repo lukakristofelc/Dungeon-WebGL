@@ -163,6 +163,14 @@ export class Player extends Node {
         }
     }
 
+    openChest(chest) {
+        if (this.keys['KeyE']) {
+            document.getElementById("healthPotion").play();
+            this.lifePoints = 200;
+            chest.translation = [0, -100, 0];
+        }
+    }
+
 
 
 

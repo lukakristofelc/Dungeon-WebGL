@@ -4,6 +4,7 @@ import { Node } from './Node.js';
 import { Model } from './Model.js';
 import { Camera } from './Camera.js';
 import { Player } from './Player.js';
+import { Chest } from './Chest.js';
 
 import { Scene } from './Scene.js';
 import { Enemy } from './Enemy.js';
@@ -42,6 +43,12 @@ export class SceneBuilder { // iz podatkov iz SceneLoader-ja dejansko zgradi
                 const texture = this.spec.textures[spec.texture];
 
                 return new ExitGate(mesh, texture, spec);
+            }
+            case 'chest': {
+                const mesh = new Mesh(this.spec.meshes[spec.mesh]);
+                const texture = this.spec.textures[spec.texture];
+
+                return new Chest(mesh, texture, spec);
             }
             case 'projectile': {
                 const mesh = new Mesh(this.spec.meshes[spec.mesh]);
